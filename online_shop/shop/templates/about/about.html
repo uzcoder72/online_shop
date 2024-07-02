@@ -1,10 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+`{% extends 'base.html' %}
+
+{% block content %}
+    {% load static %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>Responsive Blog Card</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width"/>
+        <link rel="stylesheet" href="{% static 'shop/css/styles_for_about.css' %}"/>
+    </head>
+    <body>
+    <section class="cards-wrapper">
+        <div class="card-grid-space">
+            <div class="num">👨‍💻</div>
+            <a class="card"
+               href="https://avatars.githubusercontent.com/u/169920989?v=4"
+               style="--bg-img: url(https://avatars.githubusercontent.com/u/169920989?v=4)">
+                <div>
+                    <h1>Vohidjon Aka</h1>
+                    <p>One of the most influential developer for this platform</p>
+                    <div class="date">30 June 2024</div>
+                    <div class="tags">
+                        <div class="tag">BackEnd Developer</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="card-grid-space">
+            <div class="num">👨‍💻</div>
+            <a class="card" href="https://avatars.githubusercontent.com/u/158210241?v=4"
+               style="--bg-img: url('https://avatars.githubusercontent.com/u/158210241?v=4')">
+                <div>
+                    <h1>Khakimjon Bro</h1>
+                    <p>One of the most influential developer for this platform</p>
+                    <div class="date">30 June 2024</div>
+                    <div class="tags">
+                        <div class="tag">BackEnd Developer</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="card-grid-space">
+            <div class="num">👨‍💻</div>
+            <a class="card"
+               href="https://avatars.githubusercontent.com/u/169914777?v=4"
+               style="--bg-img: url('https://avatars.githubusercontent.com/u/169914777?v=4')">
+                <div>
+                    <h1>W Mirshod</h1>
+                    <p>One of the most influential developer for this platform</p>
+                    <div class="date">30 June 2024</div>
+                    <div class="tags">
+                        <div class="tag">BackEnd Developer</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="card-grid-space">
+            <div class="num">👨‍💻</div>
+            <a class="card"
+               href="https://avatars.githubusercontent.com/u/169916184?s=400&u=f59a6ae43190025b49fcc4d4bb45cee07ff63e89&v=4"
+               style="--bg-img: url('https://avatars.githubusercontent.com/u/169916184?s=400&u=f59a6ae43190025b49fcc4d4bb45cee07ff63e89&v=4')">
+                <div>
+                    <h1>Asadbek</h1>
+                    <p>Modest programmer who helps in any situation.</p>
+                    <div class="date">03 July 2024</div>
+                    <div class="tags">
+                        <div class="tag">BackEnd Developer</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="card-grid-space">
+            <div class="num">⭐</div>
+            <a class="card"
+               href="https://th.bing.com/th/id/R.a4406fca4dc5e2770b33e5bb525a95ce?rik=XsfiBn3aaHPZZQ&riu=http%3a%2f%2fwww.documentingreality.com%2fforum%2fattachments%2ff185%2f355029d1334944072-adolf-hitler-_adolf_hitler_20_april_1937.original.jpg&ehk=nbNmwQwP23Frghhy9BkVh39%2byQYg4oOei2iijU3bMDI%3d&risl=&pid=ImgRaw&r=0"
+               style="--bg-img: url('https://th.bing.com/th/id/R.a4406fca4dc5e2770b33e5bb525a95ce?rik=XsfiBn3aaHPZZQ&riu=http%3a%2f%2fwww.documentingreality.com%2fforum%2fattachments%2ff185%2f355029d1334944072-adolf-hitler-_adolf_hitler_20_april_1937.original.jpg&ehk=nbNmwQwP23Frghhy9BkVh39%2byQYg4oOei2iijU3bMDI%3d&risl=&pid=ImgRaw&r=0')">
+                <div>
+
+                    <h2>Arch Villian</h2>
+                    <h5>Our Most Loyal Customer (Adolf Hitler)</h5>
+                    <div class="tags">
+                        <div class="tag">CUSTOMER</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+    </body>
+    </html>
+{% endblock %}

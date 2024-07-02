@@ -1,10 +1,32 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Online Shopping</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="https://www.flaticon.com/free-icons/smart-cart"/>
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{% static 'shop/css/styles.css' %}" rel="stylesheet"/>
 </head>
 <body>
-$END$
+
+    {% include '_navbar.html' %}
+    
+    {% block content %}
+    {% endblock %}
+
+    {% include '_footer.html' %}
+
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="{% static 'shop/js/scripts.js' %}"></script>
 </body>
 </html>
