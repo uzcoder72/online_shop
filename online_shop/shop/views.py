@@ -1,27 +1,32 @@
 from django.db.models import Q
-from django.shortcuts import render, redirect, get_object_or_404
-
+from django.shortcuts import render, get_object_or_404, redirect
 from shop.forms import CommentForm, OrderForm
 from shop.models import Product, Comment, Category
-
-
-
-
-
+from django.contrib import messages
 
 # Create your views here.
+
 
 def home_page(request, category_slug=None):
     search = request.GET.get('searching')
     categories = Category.objects.all()
+    products = Product.objects.all()
 
     if search:
-        products = Product.objects.filter(Q(name__icontains=search))
-    else:
-        products = Product.objects.all()
+        products = products.filter(name__icontains=search)
 
     if category_slug:
-        products = products.filter(category__slug=category_slug)
+        category = get_object_or_404(Category, slug=category_slug)
+        products = products.filter(category=category)
+
+    # Sorting logic
+    expensive = request.GET.get('expensive')
+    cheap = request.GET.get('cheap')
+
+    if expensive:
+        products = products.order_by('-price')
+    elif cheap:
+        products = products.order_by('price')
 
     context = {
         'products': products,
@@ -30,16 +35,15 @@ def home_page(request, category_slug=None):
     return render(request, 'shop/home.html', context)
 
 
-from django.shortcuts import render, get_object_or_404
-from shop.forms import CommentForm, OrderForm
-from shop.models import Product, Comment
+
+
+
+
+
 
 def detail_page(request, product_id: int):
     product = Product.objects.get(id=product_id)
-    print(f"Product Category: {product.category}")
     related_products = Product.objects.filter(category=product.category).exclude(id=product_id)
-    print(f"Related Products: {related_products}")
-
     product_comments = Comment.objects.filter(product=product_id)
 
     form = CommentForm()
@@ -56,6 +60,7 @@ def detail_page(request, product_id: int):
                 order = form2.save(commit=False)
                 order.product = product
                 order.save()
+                messages.success(request, 'Your order was successfully submitted.')
         else:
             form = CommentForm(data=request.POST)
             if form.is_valid():
@@ -79,17 +84,16 @@ def detail_page(request, product_id: int):
 
 
 
+
 def about_page(request):
     return render(request, 'about/about.html')
 
 
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Comment
-from .forms import CommentForm
 
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug)
     comments = Comment.objects.filter(product=product).order_by('-created_at')
+
 
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -107,5 +111,27 @@ def product_detail(request, slug):
         'form': form,
     }
     return render(request, 'shop/detail.html', context)
+
+
+# views.py
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+from shop.models import Product
+
+
+@login_required
+def delete_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    if request.method == 'POST':
+        product.delete()
+        return redirect('index')
+
+    context = {
+        'product': product,
+    }
+    return render(request, 'delete_product.html', context)
+
 
 

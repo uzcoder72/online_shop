@@ -1,5 +1,5 @@
 {% block navbar %}
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="{% url 'index' %}">Start Bootstrap</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -16,18 +16,17 @@
                         {% for category in categories %}
                             <li><a class="dropdown-item" href="{% url 'product_category' category.slug %}">{{ category.title }}</a></li>
                         {% endfor %}
-                        
                     </ul>
                 </li>
             </ul>
-            <form class="d-flex" method="get" action="{% url 'index' %}">
+            <form class="d-flex me-3" method="get" action="{% url 'index' %}">
                 <input type="text" class="form-control" name="searching" placeholder="Search products...">
                 <button class="btn btn-outline-dark" type="submit">
                     <i class="bi-search-fill me-1"></i>
                     Search
                 </button>
             </form>
-
+            <a class="btn btn-outline-dark" href="{% url 'admin:index' %}">Login</a>
         </div>
     </div>
 </nav>
