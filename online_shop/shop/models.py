@@ -29,7 +29,6 @@ class Product(models.Model):
         THREE = 3
         FOUR = 4
         FIVE = 5
-
     name = models.CharField(max_length=150)
     description = models.TextField(null=True, blank=True)
     price = models.FloatField()
@@ -44,15 +43,16 @@ class Product(models.Model):
     def discounted_price(self):
         if self.discount > 0:
             return self.price * (1 - self.discount / 100)
-        else:
-            return self.price
+        return self.price
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
-
         super(Product, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.name
+
 
 
 class Order(models.Model):
