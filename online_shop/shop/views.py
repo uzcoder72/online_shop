@@ -7,6 +7,8 @@ from django.contrib import messages
 # Create your views here.
 
 
+from django.core.paginator import Paginator
+
 def home_page(request, category_slug=None):
     search = request.GET.get('searching')
     categories = Category.objects.all()
@@ -28,8 +30,13 @@ def home_page(request, category_slug=None):
     elif cheap:
         products = products.order_by('price')
 
+    # Pagination logic
+    paginator = Paginator(products, 12)  # Show 12 products per page.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'products': products,
+        'page_obj': page_obj,
         'categories': categories,
     }
     return render(request, 'shop/home.html', context)
@@ -38,13 +45,11 @@ def home_page(request, category_slug=None):
 
 
 
-
-
-
-def detail_page(request, product_id: int):
+def detail_page(request, product_id: int,en_slug):
     product = Product.objects.get(id=product_id)
-    related_products = Product.objects.filter(category=product.category).exclude(id=product_id)
-    product_comments = Comment.objects.filter(product=product_id)
+    related_products = Product.objects.filter(Q(category=product.category) & Q(is_available=True)).exclude(
+        Q(slug=en_slug) | Q(quantity=0))
+    product_comments = Comment.objects.filter(product=product_id).order_by('-created_at')
 
     form = CommentForm()
     form2 = OrderForm()
@@ -53,6 +58,7 @@ def detail_page(request, product_id: int):
         if 'order_name' in request.POST and 'order_email' in request.POST and 'order_quantity' in request.POST:
             form2 = OrderForm(data={
                 'name': request.POST['order_name'],
+                'related_products': related_products,
                 'email': request.POST['order_email'],
                 'quantity': request.POST['order_quantity']
             })
@@ -64,12 +70,11 @@ def detail_page(request, product_id: int):
         else:
             form = CommentForm(data=request.POST)
             if form.is_valid():
-                comment1 = form.save(commit=False)
-                comment1.product = product
-                comment1.save()
-    else:
-        form = CommentForm()
-        form2 = OrderForm()
+                comment = form.save(commit=False)
+                comment.product = product
+                comment.save()
+                messages.success(request, 'Your comment was successfully submitted.')
+                return redirect('detail', product_id=product_id)
 
     context = {
         'product': product,
@@ -85,6 +90,7 @@ def detail_page(request, product_id: int):
 
 
 
+
 def about_page(request):
     return render(request, 'about/about.html')
 
@@ -93,6 +99,8 @@ def about_page(request):
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug)
     comments = Comment.objects.filter(product=product).order_by('-created_at')
+    related_products = Product.objects.filter(Q(category=product.category) & Q(is_available=True)).exclude(
+        Q(slug=slug) | Q(quantity=0))
 
 
     if request.method == 'POST':
@@ -107,6 +115,7 @@ def product_detail(request, slug):
 
     context = {
         'product': product,
+        'related_products': related_products,
         'product_comments': comments,
         'form': form,
     }

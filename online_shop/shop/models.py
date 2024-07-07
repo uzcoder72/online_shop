@@ -35,6 +35,7 @@ class Product(models.Model):
     discount = models.FloatField(default=0)
     rating = models.IntegerField(choices=Ratings.choices, default=Ratings.ZERO.value)
     quantity = models.IntegerField(default=1)
+    is_available = models.BooleanField(default=True)
     image = models.ImageField(upload_to='products/')
     slug = models.SlugField(max_length=150, unique=True, blank=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='products')
@@ -47,7 +48,15 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name)
+            original_slug = slugify(self.name)
+            queryset = Product.objects.filter(slug__iexact=original_slug).exists()
+            count = 1
+            slug = original_slug
+            while queryset:
+                slug = f'{original_slug}-{count}'
+                count += 1
+                queryset = Product.objects.filter(slug__iexact=slug).exists()
+            self.slug = slug
         super(Product, self).save(*args, **kwargs)
 
     def __str__(self):

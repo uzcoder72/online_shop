@@ -6,7 +6,7 @@
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-white">
                 <h1 class="display-4 fw-bolder">Luxury shop</h1>
-                <p class="lead fw-normal text-white-50 mb-0">Wellcome to our online shop.</p>
+                <p class="lead fw-normal text-white-50 mb-0">Welcome to our online shop.</p>
             </div>
         </div>
     </header>
@@ -28,7 +28,7 @@
     <section class="py-5">
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                {% for product in products %}
+                {% for product in page_obj %}
                     <div class="col mb-5">
                         <div class="card h-100">
                             <!-- Sale badge-->
@@ -42,29 +42,12 @@
                                 <div class="text-center">
                                     <!-- Product name-->
                                     <h5 class="fw-bolder">{{ product.name }}</h5>
-                                    <!-- Product name-->
+                                    <!-- Product rating-->
                                     <div class="d-flex justify-content-center small text-warning mb-2">
-                                        {% if product.rating == 1 %}
+                                        {% for i in "12345"|slice:":product.rating" %}
                                             <div class="bi-star-fill"></div>
-                                        {% elif product.rating == 2 %}
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                        {% elif product.rating == 3 %}
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                        {% elif product.rating == 4 %}
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                        {% elif product.rating == 5 %}
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                        {% endif %}</div>
+                                        {% endfor %}
+                                    </div>
                                     <!-- Product price-->
                                     {% if product.discount %}
                                         <span class="text-muted text-decoration-line-through">${{ product.price }}</span>
@@ -79,13 +62,53 @@
                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto"
                                                             href="{% url 'product_detail' product.slug %}">View
                                     product</a></div>
-
-
                             </div>
                         </div>
                     </div>
                 {% endfor %}
+            </div>
 
+            <!-- Pagination controls -->
+            <div class="d-flex justify-content-center mt-4">
+                <nav>
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1" aria-label="First">
+                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li class="page-item active" aria-current="page">
+                                    <span class="page-link">{{ num }}</span>
+                                </li>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
             </div>
         </div>
     </section>
