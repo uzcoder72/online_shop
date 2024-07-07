@@ -21,7 +21,6 @@ def home_page(request, category_slug=None):
         category = get_object_or_404(Category, slug=category_slug)
         products = products.filter(category=category)
 
-    # Sorting logic
     expensive = request.GET.get('expensive')
     cheap = request.GET.get('cheap')
 
@@ -122,7 +121,6 @@ def product_detail(request, slug):
     return render(request, 'shop/detail.html', context)
 
 
-# views.py
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
