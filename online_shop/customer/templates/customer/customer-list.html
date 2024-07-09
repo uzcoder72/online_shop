@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="container">
+    <h2>Customer List</h2>
+    <form method="get">
+      <input type="text" name="search" placeholder="Search customers" value="{{ request.GET.search }}">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Phone Number</th>
+          <th>Address</th>
+          <th>Joined</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for customer in customer_list %}
+          <tr>
+            <td>{{ customer.id }}</td>
+            <td>{{ customer.full_name }}</td>
+            <td>{{ customer.email }}</td>
+            <td>{{ customer.phone_number }}</td>
+            <td>{{ customer.address }}</td>
+            <td>{{ customer.joined }}</td>
+            <td>
+              <a href="{% url 'edit' customer.pk %}" class="btn btn-secondary">Edit</a>
+              <a href="{% url 'delete' customer.pk %}" class="btn btn-danger">Delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

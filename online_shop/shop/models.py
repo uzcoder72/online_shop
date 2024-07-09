@@ -1,8 +1,9 @@
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin
 
-
-# Create your models here.
 class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Categories'

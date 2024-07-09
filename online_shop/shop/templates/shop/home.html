@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load custom_filters %}
 {% block content %}
     <!-- Header-->
     <header class="bg-dark py-5">
@@ -42,12 +42,29 @@
                                 <div class="text-center">
                                     <!-- Product name-->
                                     <h5 class="fw-bolder">{{ product.name }}</h5>
-                                    <!-- Product rating-->
+                                    <!-- Product name-->
                                     <div class="d-flex justify-content-center small text-warning mb-2">
-                                        {% for i in "12345"|slice:":product.rating" %}
+                                        {% if product.rating == 1 %}
                                             <div class="bi-star-fill"></div>
-                                        {% endfor %}
-                                    </div>
+                                        {% elif product.rating == 2 %}
+                                            <div class="bi-star-fill"></div>
+                                            <div class="bi-star-fill"></div>
+                                        {% elif product.rating == 3 %}
+                                            <div class="bi-star-fill"></div>
+                                            <div class="bi-star-fill"></div>
+                                            <div class="bi-star-fill"></div>
+                                        {% elif product.rating == 4 %}
+                                            <div class="bi-star-fill"></div>
+                                            <div class="bi-star-fill"></div>
+                                            <div class="bi-star-fill"></div>
+                                            <div class="bi-star-fill"></div>
+                                        {% elif product.rating == 5 %}
+                                            <div class="bi-star-fill"></div>
+                                            <div class="bi-star-fill"></div>
+                                            <div class="bi-star-fill"></div>
+                                            <div class="bi-star-fill"></div>
+                                            <div class="bi-star-fill"></div>
+                                        {% endif %}</div>
                                     <!-- Product price-->
                                     {% if product.discount %}
                                         <span class="text-muted text-decoration-line-through">${{ product.price }}</span>

@@ -4,6 +4,7 @@ from shop.forms import CommentForm, OrderForm
 from shop.models import Product, Comment, Category
 from django.contrib import messages
 
+
 # Create your views here.
 
 
@@ -139,6 +140,7 @@ def delete_product(request, product_id):
         'product': product,
     }
     return render(request, 'delete_product.html', context)
+
 
 
 
