@@ -22,7 +22,7 @@ def update_slugs(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('shop', '0002_alter_category_options_rename_body_comment_message_and_more'), # replace with your actual migration dependencies
+        ('shop', '0003_category_slug_product_slug'),
     ]
 
     operations = [
